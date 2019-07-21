@@ -6,7 +6,7 @@
       </div>
       <div v-else>
         <h1>Create Account</h1>
-        <h2>Vuelidate</h2>
+        <h2>VeeValidate</h2>
         <form @submit.prevent="onSubmit">
           <!-- 
         NOTES:
@@ -61,7 +61,6 @@
             <label for="email">Email</label>
             <!-- $v reserved word for the vuelidate package. Gives us access to validators and valitators rules / behind the scenes valiations vuelidate does -->
             <!-- call method of touch which is automatically exposed and added by the vuelidate package. -->
-
             <input type="email" id="email" @blur="$v.email.$touch()" v-model="email" />
             <p v-if="!$v.email.email">Must provide valid email</p>
           </div>
@@ -267,17 +266,14 @@ export default {
       email // valid email
     },
     email2: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
       required, // not empty
       email // valid email
     },
     email3: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
       required, // not empty
       email // valid email
     },
     age: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
       required, // not empty
       numeric, // it is a number
       minValue: minValue(18),
@@ -289,9 +285,8 @@ export default {
       minLength: minLength(6)
     },
     confirmPassword: {
-      required,
-      //match this to your data property name
-      sameAs: sameAs("password")
+      required, 
+      sameAs: sameAs("password") //match this to your data property name
     },
     terms: {
       required,
