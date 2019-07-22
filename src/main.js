@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import Vuelidate from 'vuelidate'
+import VeeValidate from 'vee-validate'
 import VueMask from 'v-mask'
 import router from './router'
+import scss from './scss/main.scss'
 
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
 Vue.use(VueMask);
+Vue.use(VeeValidate);
 
 new Vue({
   router,

@@ -1,0 +1,134 @@
+// Form
+.form {
+    max-width: 400px;
+    margin: 3em auto;
+    .form-content {
+      border: 1px solid #eaeaea;
+      padding: 0 2em 2em;
+      -webkit-box-shadow: 4px 3px 17px -2px rgba(143, 143, 143, 0.6);
+      -moz-box-shadow: 4px 3px 17px -2px rgba(143, 143, 143, 0.6);
+      box-shadow: 4px 3px 17px -2px rgba(143, 143, 143, 0.6);
+    }
+  }
+  
+  // Inputs
+  .input {
+    margin: 1em auto;
+  
+    label {
+      display: block;
+      font-weight: bold;
+      text-align: left;
+      margin: 0 0 0.5em;
+    }
+  
+    input {
+      font: inherit;
+      width: 100%;
+      padding: 0.4em 0.8em;
+      box-sizing: border-box;
+      border: 1px solid #cecece;
+  
+      &:focus {
+        outline-color: #88f7a2;
+        border: 1px solid #0b120c;
+      }
+    }
+  
+    select {
+      font: inherit;
+      border: 1px solid #cecece;
+      background-color: #f5f3f3;
+      border-radius: 4px;
+      padding: 0.2em;
+      text-align-last: center;
+  
+      &:focus {
+        outline-color: #88f7a2;
+        border: 1px solid #0b120c;
+      }
+    }
+  
+    #initials {
+      max-width: 60px;
+      padding: 0;
+      margin: 0 .5em;
+      text-align: center;
+    }
+  }
+  
+  .inline {
+    margin: auto;
+    label {
+      display: inline;
+    }
+    input {
+      width: auto;
+    }
+  }
+  
+  .required{
+    color: #b50000;
+  }
+  
+  .invalid {
+    color: #b50000;
+    label {
+      color: #b50000;
+    }
+    input {
+      border: 1px solid #b50000;
+      background-color: #f7e9e9;
+    }
+  }
+  
+  // Secret Questions
+  .secretQuestions,
+  .submit {
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid #0b120c;
+      border-radius: 4px;
+      padding: 5px;
+      background: #afead0;
+      // -webkit-box-shadow: 4px 7px 7px -9px rgba(135,135,135,1);
+      // -moz-box-shadow: 4px 7px 7px -9px rgba(135,135,135,1);
+      // box-shadow: 4px 7px 7px -9px rgba(135,135,135,1);
+  
+      &:hover,
+      &:active {
+        background-color: #41b883;
+      }
+    }
+  }
+  
+  .question{
+    border: 1px solid #cecece;
+    padding: 1em .5em;
+    position: relative;
+  
+    button.delete {
+      margin: .5em;
+      padding: 1px 8px;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+    }
+  }
+  
+  .accountType{
+    display: inline-block
+  }
+  
+  .submit {
+    button[disabled],
+    button[disabled]:hover,
+    button[disabled]:active {
+      border: 1px solid #ccc;
+      background-color: transparent;
+      color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+  

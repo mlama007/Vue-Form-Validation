@@ -7,119 +7,100 @@
       <div v-else>
         <h1>Create Account</h1>
         <h2>Vuelidate</h2>
-        <form @submit.prevent="onSubmit">
-          <!-- 
-        NOTES:
-
-        invalid - input not valid
-        dirty - whether or not user has touched the input
-        error - true when dirty and invalid are true
-        pending - currently evalutating validity of input (important for asynchrounous validations)
-        params - list assigned validators
-       
-        Everything repeats for each validator and once more for overall form 
-
-        @blur - once input loses focus
-        @input - as user inputs
-
-        Mask for phone Number - https://www.npmjs.com/package/v-mask
-          -->
+        <form @submit.prevent="onSubmit" autocomplete="on">
 
           <!-- First Name -->
           <div class="input" :class="{invalid: $v.firstName.$error}">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" @blur="$v.firstName.$touch()" v-model="firstName" />
+            <label for="firstName">First Name (using @blur) <span aria-hidden=true class="required">*</span> </label>
+            <input type="text" id="firstName" @blur="$v.firstName.$touch()" v-model="firstName" required/>
             <p
-              v-if="!$v.firstName.minLength"
+              v-if="!$v.firstName.required && $v.firstName.$error"
+              aria-live="assertive"
+            >First name must be filled out</p>
+            <p
+              v-if="!$v.firstName.minLength && $v.firstName.$error"
+              aria-live="assertive"
             >First name must have at least {{$v.firstName.$params.minLength.min}} characters</p>
+            <p
+              v-if="!$v.firstName.alpha && $v.firstName.$error"
+              aria-live="assertive"
+            >First name must only contain alphabetic characters </p>
           </div>
 
           <!-- Last Name -->
           <div class="input" :class="{invalid: $v.lastName.$error}">
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" @blur="$v.lastName.$touch()" v-model="lastName" />
+            <label for="lastName">Last Name (using @input) <span aria-hidden=true class="required">*</span></label>
+            <input type="text" id="lastName" @input="$v.lastName.$touch()" v-model="lastName" required/>
             <p
-              v-if="!$v.lastName.minLength"
-            >First name must have at least {{$v.lastName.$params.minLength.min}} characters</p>
+              v-if="!$v.lastName.required && $v.lastName.$error"
+              aria-live="assertive"
+            >Last name must be filled out</p>
+            <p
+              v-if="!$v.lastName.minLength && $v.lastName.$error"
+              aria-live="assertive"
+            >Last name must have at least {{$v.lastName.$params.minLength.min}} characters</p>
+            <p
+              v-if="!$v.lastName.alpha && $v.lastName.$error"
+              aria-live="assertive"
+            >Last name must only contain alphabetic characters </p>
           </div>
 
           <!-- Phone Number -->
           <div class="input" :class="{invalid: $v.phoneNumber.$error}">
-            <label for="phoneNumber">Phone Number</label>
+            <label for="phoneNumber">Phone Number (touch() in button) <span aria-hidden=true class="required">*</span></label>
             <input
               type="tel"
               v-mask="'(###) ###-####'"
               id="phoneNumber"
-              @blur="$v.phoneNumber.$touch()"
               v-model="phoneNumber"
+              required
             />
-            <p v-if="!$v.phoneNumber.minLength">Must be valid number</p>
+            <button type="button" @click="$v.phoneNumber.$touch()">Validate Number</button>
+            <p v-if="$v.phoneNumber.$error" aria-live="assertive">Must be valid number</p>
           </div>
 
-          <!-- Mail -->
+          <!-- Email -->
           <div class="input" :class="{invalid: $v.email.$error}">
-            <label for="email">Email</label>
-            <!-- $v reserved word for the vuelidate package. Gives us access to validators and valitators rules / behind the scenes valiations vuelidate does -->
-            <!-- call method of touch which is automatically exposed and added by the vuelidate package. -->
-            <input type="email" id="email" @blur="$v.email.$touch()" v-model="email" />
-            <p v-if="!$v.email.email">Must provide valid email</p>
-          </div>
-
-          <!-- Mail -->
-          <div class="input" :class="{invalid: $v.email2.$error}">
-            <label for="email2">Email</label>
-            <!-- $v reserved word for the vuelidate package. Gives us access to validators and valitators rules / behind the scenes valiations vuelidate does -->
-            <!-- call method of touch which is automatically exposed and added by the vuelidate package. -->
-            <input type="email" id="email2" @input="$v.email2.$touch()" v-model="email2" />
-            <p v-if="!$v.email2.email">Must provide valid email</p>
-          </div>
-
-          <!-- Mail -->
-          <div class="input" :class="{invalid: $v.email3.$error}">
-            <label for="email3">Email with button for touch</label>
-            <!-- $v reserved word for the vuelidate package. Gives us access to validators and valitators rules / behind the scenes valiations vuelidate does -->
-            <!-- call method of touch which is automatically exposed and added by the vuelidate package. -->
-
-            <input type="email" id="email3" v-model="email3" />
-            <!-- You can always bind the touch to trigger validation outside of the input to evalutate input -->
-            <button type="button" @click="$v.email3.$touch()">Enter</button>
-            <p v-if="!$v.email3.email">Must provide valid email</p>
+            <label for="email">Email <span aria-hidden=true class="required">*</span></label>
+            <input type="email" id="email" @blur="$v.email.$touch()" v-model="email" required/>
+            <p v-if="!$v.email.email" aria-live="assertive">Must provide valid email</p>
           </div>
 
           <!-- Age -->
           <div class="input" :class="{invalid: $v.age.$error}">
-            <label for="age">Your Age</label>
-            <input type="number" id="age" @blur="$v.age.$touch()" v-model.number="age" />
+            <label for="age">Your Age <span aria-hidden=true class="required">*</span></label>
+            <input type="number" id="age" @blur="$v.age.$touch()" v-model.number="age" required/>
 
             <!-- Params will hold the params for the validator -->
             <p
-              v-if="!$v.age.maxValue && $v.age.$error"
+              v-if="!$v.age.maxValue && $v.age.$error" aria-live="assertive"
             >Cannot have age over {{$v.age.$params.maxValue.max}}</p>
             <p v-if="!$v.age.minValue && $v.age.$error">Must be over {{$v.age.$params.minValue.min}}</p>
             <p
-              v-if="!$v.age.between && $v.age.$error"
+              v-if="!$v.age.between && $v.age.$error" aria-live="assertive"
             >Age has to be between {{$v.age.$params.between.min}} and {{$v.age.$params.between.max}}</p>
           </div>
 
           <!-- Password -->
           <div class="input" :class="{invalid: $v.password.$error}">
-            <label for="password">Password</label>
-            <input type="password" id="password" @blur="$v.password.$touch()" v-model="password" />
+            <label for="password">Password <span aria-hidden=true class="required">*</span></label>
+            <input type="password" id="password" @blur="$v.password.$touch()" v-model="password" required/>
             <p
-              v-if="!$v.password.minLength && $v.password.$error"
+              v-if="!$v.password.minLength && $v.password.$error" aria-live="assertive"
             >Password must be at least {{$v.password.$params.minLength.min}} characters long</p>
           </div>
 
           <!-- Password Confirmation -->
           <div class="input" :class="{invalid: $v.confirmPassword.$error}">
-            <label for="confirm-password">Confirm Password</label>
+            <label for="confirm-password">Confirm Password <span aria-hidden=true class="required">*</span></label>
             <input
               type="password"
               id="confirm-password"
               @blur="$v.confirmPassword.$touch()"
               v-model="confirmPassword"
+              required
             />
-            <p v-if="!$v.confirmPassword.sameAs && $v.confirmPassword.$error">Passwords must match</p>
+            <p v-if="!$v.confirmPassword.sameAs && $v.confirmPassword.$error" aria-live="assertive">Passwords must match</p>
           </div>
 
           <!-- Secret Questions -->
@@ -138,16 +119,17 @@
               >x</button>
               <!-- Question -->
               <div :class="{invalid: $v.secretQuestionInputs.$each[index].value.$error}">
-                <label :for="secretQuestionInput.id">Secret Question #{{ index+1 }}</label>
+                <label :for="secretQuestionInput.id">Secret Question #{{ index+1 }} <span aria-hidden=true class="required">*</span></label>
                 <input
                   :class="{invalid: $v.secretQuestionInputs.$each[index].$error}"
                   type="text"
                   :id="secretQuestionInput.id"
                   @blur="$v.secretQuestionInputs.$each[index].value.$touch()"
                   v-model="secretQuestionInput.value"
+                  required
                 />
                 <p
-                  v-if="$v.secretQuestionInputs.$each[index].value.$error"
+                  v-if="$v.secretQuestionInputs.$each[index].value.$error" aria-live="assertive"
                 >Input must be at least {{$v.secretQuestionInputs.$each[index].value.$params.minLength.min}} characters long</p>
               </div>
               <br>
@@ -155,32 +137,33 @@
               <div :class="{invalid: $v.secretQuestionInputs.$each[index].password.$error}">
                 <label
                   :for="secretQuestionInput.id + 'password'"
-                >Secret Question #{{ index+1 }}'s Password</label>
+                >Secret Question #{{ index+1 }}'s Password <span aria-hidden=true class="required">*</span></label>
                 <input
                   :class="{invalid: $v.secretQuestionInputs.$each[index].$error}"
                   type="password"
                   :id="secretQuestionInput.id + 'password'"
                   @blur="$v.secretQuestionInputs.$each[index].password.$touch()"
                   v-model="secretQuestionInput.password"
+                  required
                 />
                 <p
-                  v-if="$v.secretQuestionInputs.$each[index].password.$error"
+                  v-if="$v.secretQuestionInputs.$each[index].password.$error" aria-live="assertive"
                 >Password must be at least {{$v.secretQuestionInputs.$each[index].password.$params.minLength.min}} characters long</p>
               </div>
             </div>
             <p
               v-if="!$v.secretQuestionInputs.minLength"
-              :class="{invalid: !$v.secretQuestionInputs.minLength}"
+              :class="{invalid: !$v.secretQuestionInputs.minLength}" aria-live="assertive"
             >You need at least {{$v.secretQuestionInputs.$params.minLength.min}} Secret Questions</p>
           </div>
           <!-- $iter present as direct child of $each objects -->
           <p
-            v-if="!$v.secretQuestionInputs.$each.$iter[0]"
+            v-if="!$v.secretQuestionInputs.$each.$iter[0]" aria-live="assertive"
           >You need at least {{$v.secretQuestionInputs.$params.minLength.min}} Secret Questions</p>
 
           <!-- Account Type -->
           <div class="input accountType">
-            <label for="accountType">Account Type</label>
+            <label for="accountType">Account Type <span aria-hidden=true class="required">*</span></label>
             <select id="accountType" v-model="accountType">
               <option value="personal">Personal</option>
               <option value="business">Business</option>
@@ -190,15 +173,15 @@
           <!-- Terms of Use -->
           <div class="input inline" :class="{invalid: $v.terms.$invalid}">
             <div>
-              <input type="checkbox" id="terms" @change="$v.terms.$touch()" v-model="terms" />
-              <label for="terms">Accept Terms of Use</label>
+              <input type="checkbox" id="terms" @change="$v.terms.$touch()" v-model="terms"/>
+              <label for="terms">Accept Terms of Use <span v-if="$v.terms.$invalid" class="required" aria-label="required">*</span></label>
             </div>
 
             <!-- Initials -->
             <div class="input" :class="{invalid: $v.initials.$invalid}">
-              <label for="initials">Initials</label>
-              <input type="text" id="initials" @blur="$v.initials.$touch()" v-model="initials" />
-              <p v-if="!$v.initials.required && $v.initials.$error">Initials are needed</p>
+              <label for="initials">Initials <span v-if="!$v.initials.required" class="required" aria-label="required">*</span></label>
+              <input type="text" id="initials" @blur="$v.initials.$touch()" v-model="initials"/>
+              <p v-if="!$v.initials.required && $v.initials.$error" aria-live="assertive">Initials are needed</p>
             </div>
           </div>
 
@@ -215,6 +198,7 @@
 <script>
 import {
   required,
+  alpha,
   email,
   numeric,
   minValue,
@@ -232,8 +216,6 @@ export default {
       lastName: "",
       phoneNumber: "",
       email: "",
-      email2: "",
-      email3: "",
       age: null,
       password: "",
       confirmPassword: "",
@@ -245,37 +227,27 @@ export default {
     };
   },
   validations: {
-    firstName: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
+    firstName: { // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
       required, // not empty
-      minLength: minLength(2)
+      minLength: minLength(2),
+      alpha
     },
     lastName: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
-      required, // not empty
-      minLength: minLength(2)
+      required, 
+      minLength: minLength(2),
+      alpha
     },
     phoneNumber: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
-      required, // not empty
+      required, 
       minLength: minLength(14)
     },
     email: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
-      required, // not empty
-      email // valid email
-    },
-    email2: {
-      required, // not empty
-      email // valid email
-    },
-    email3: {
-      required, // not empty
-      email // valid email
+      required, 
+      email 
     },
     age: {
-      required, // not empty
-      numeric, // it is a number
+      required, 
+      numeric,
       minValue: minValue(18),
       maxValue: maxValue(120),
       between: between(18, 120)
@@ -348,144 +320,10 @@ export default {
         terms: this.terms,
         initials: this.initials
       };
+      // eslint-disable-next-line
       console.log("submittedData: ", submittedData);
       this.submitted = true;
     }
   }
 };
 </script>
-
-<style lang="scss">
-// Form
-.form {
-  max-width: 400px;
-  margin: 3em auto;
-  .form-content {
-    border: 1px solid #eaeaea;
-    padding: 0 2em 2em;
-    -webkit-box-shadow: 4px 3px 17px -2px rgba(143, 143, 143, 0.6);
-    -moz-box-shadow: 4px 3px 17px -2px rgba(143, 143, 143, 0.6);
-    box-shadow: 4px 3px 17px -2px rgba(143, 143, 143, 0.6);
-  }
-}
-
-// Inputs
-.input {
-  margin: 1em auto;
-
-  label {
-    display: block;
-    font-weight: bold;
-    text-align: left;
-    margin: 0 0 0.5em;
-  }
-
-  input {
-    font: inherit;
-    width: 100%;
-    padding: 0.4em 0.8em;
-    box-sizing: border-box;
-    border: 1px solid #cecece;
-
-    &:focus {
-      outline-color: #88f7a2;
-      border: 1px solid #0b120c;
-    }
-  }
-
-  select {
-    font: inherit;
-    border: 1px solid #cecece;
-    background-color: #f5f3f3;
-    border-radius: 4px;
-    padding: 0.2em;
-    text-align-last: center;
-
-    &:focus {
-      outline-color: #88f7a2;
-      border: 1px solid #0b120c;
-    }
-  }
-
-  #initials {
-    max-width: 60px;
-    padding: 0;
-    margin: 0 .5em;
-    text-align: center;
-  }
-}
-
-.inline {
-  margin: auto;
-  label {
-    display: inline;
-  }
-  input {
-    width: auto;
-  }
-}
-
-.invalid {
-  color: #b50000;
-  label {
-    color: #b50000;
-  }
-  input {
-    border: 1px solid #b50000;
-    background-color: #f7e9e9;
-  }
-}
-
-// Secret Questions
-.secretQuestions,
-.submit {
-  button {
-    font: inherit;
-    cursor: pointer;
-    border: 1px solid #0b120c;
-    border-radius: 4px;
-    padding: 5px;
-    background: #afead0;
-    // -webkit-box-shadow: 4px 7px 7px -9px rgba(135,135,135,1);
-    // -moz-box-shadow: 4px 7px 7px -9px rgba(135,135,135,1);
-    // box-shadow: 4px 7px 7px -9px rgba(135,135,135,1);
-
-    &:hover,
-    &:active {
-      background-color: #41b883;
-    }
-  }
-}
-
-.question{
-  border: 1px solid #cecece;
-  padding: 1em .5em;
-  position: relative;
-
-  button.delete {
-    margin: .5em;
-    padding: 1px 8px;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-  }
-}
-
-.accountType{
-  display: inline-block
-}
-
-.submit {
-  button[disabled],
-  button[disabled]:hover,
-  button[disabled]:active {
-    border: 1px solid #ccc;
-    background-color: transparent;
-    color: #ccc;
-    cursor: not-allowed;
-  }
-}
-
-
-</style>
-
