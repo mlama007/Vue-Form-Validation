@@ -72,7 +72,7 @@
               id="phoneNumber2"
               name="phoneNumber"
               v-model="phoneNumber"
-              v-validate="'required|numeric|min:14'"
+              v-validate="'required|min:14'"
               required
             />
             <p
@@ -151,9 +151,10 @@
           </div>
 
           <!-- Secret Questions -->
-          <!-- <div class="secretQuestions">
+          <div class="secretQuestions">
             <button @click="onAddSecretQuestion" type="button">Add Secret Question</button>
             <div
+              v-validate="'required|min:2'"
               class="input question"
               v-for="(secretQuestionInput, index) in secretQuestionInputs"
               :key="secretQuestionInput.id"
@@ -163,48 +164,45 @@
                 @click="onDeleteSecretQuestion(secretQuestionInput.id)"
                 type="button"
                 :aria-label="'Delete Secret Question number ' + (index+1)"
-          >x</button>-->
-          <!-- Question -->
-          <!-- <div :class="{invalid: $v.secretQuestionInputs.$each[index].value.$error}">
-                <label :for="secretQuestionInput.id">Secret Question #{{ index+1 }} <span aria-hidden=true class="required">*</span></label>
+              >x</button>
+              <!-- Question -->
+              <!-- <div :class="{invalid: {'has-error': errors.has(secretQuestionInput.id)}}"> -->
+              <div>
+                <label :for="secretQuestionInput.id">
+                  Secret Question #{{ index+1 }}
+                  <span aria-hidden="true" class="required">*</span>
+                </label>
                 <input
-                  :class="{invalid: $v.secretQuestionInputs.$each[index].$error}"
                   type="text"
+                  :name="secretQuestionInput.id"
                   :id="secretQuestionInput.id"
-                  @blur="$v.secretQuestionInputs.$each[index].value.$touch()"
+                  v-validate="'required|min:2'"
                   v-model="secretQuestionInput.value"
                   required
                 />
-                <p
-                  v-if="$v.secretQuestionInputs.$each[index].value.$error" aria-live="assertive"
-                >Input must be at least {{$v.secretQuestionInputs.$each[index].value.$params.minLength.min}} characters long</p>
-          </!-->
-          <br />
-          <!-- Password -->
-          <!-- <div :class="{invalid: $v.secretQuestionInputs.$each[index].password.$error}">
-                <label
-                  :for="secretQuestionInput.id + 'password'"
-                >Secret Question #{{ index+1 }}'s Answer <span aria-hidden=true class="required">*</span></label>
-                <input
-                  :class="{invalid: $v.secretQuestionInputs.$each[index].$error}"
-                  type="password"
-                  :id="secretQuestionInput.id + 'password'"
-                  @blur="$v.secretQuestionInputs.$each[index].password.$touch()"
-                  v-model="secretQuestionInput.password"
-                  required
-                />
-                <p
-                  v-if="$v.secretQuestionInputs.$each[index].password.$error" aria-live="assertive"
-                >Password must be at least {{$v.secretQuestionInputs.$each[index].password.$params.minLength.min}} characters long</p>
+              </div>
+              <br/>
+              <!-- Answers -->
+              <!-- <div :class="{invalid: $v.secretQuestionInputs.$each[index].password.$error}"> -->
+              <div>
+                  <label :for="secretQuestionInput.id + 'password'">
+                    Secret Question #{{ index+1 }}'s Answer
+                    <span aria-hidden="true" class="required">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    :name="secretQuestionInput.id + 'password'"
+                    :id="secretQuestionInput.id + 'password'"
+                    v-model="secretQuestionInput.password"
+                    required
+                  />
+                </div>
             </div>
             <p
-              v-if="!$v.secretQuestionInputs.minLength"
-              :class="{invalid: !$v.secretQuestionInputs.minLength}" aria-live="assertive"
-            >You need at least {{$v.secretQuestionInputs.$params.minLength.min}} Secret Questions</p>
+              aria-live="assertive"
+              v-if="errors.first('confirmPassword')"
+            >{{ errors.first('confirmPassword') }}</p>
           </div>
-          <p
-            v-if="!$v.secretQuestionInputs.$each.$iter[0]" aria-live="assertive"
-          >You need at least {{$v.secretQuestionInputs.$params.minLength.min}} Secret Questions</p>-->
 
           <!-- Account Type -->
           <div class="input accountType">
@@ -238,16 +236,12 @@
               </label>
             </div>
             <p aria-live="assertive" v-if="errors.first('terms')">{{ errors.first('terms') }}</p>
-            
+
             <!-- Initials -->
             <div class="input" :class="{invalid: errors.has('initials')}">
               <label for="initials2">
                 Initials
-                <span
-                  v-if="errors.has('initials')"
-                  class="required"
-                  aria-label="required"
-                >*</span>
+                <span v-if="errors.has('initials')" class="required" aria-label="required">*</span>
               </label>
               <input
                 type="text"

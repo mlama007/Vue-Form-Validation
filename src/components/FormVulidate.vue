@@ -134,7 +134,7 @@
                 >Input must be at least {{$v.secretQuestionInputs.$each[index].value.$params.minLength.min}} characters long</p>
               </div>
               <br>
-              <!-- Password -->
+              <!-- Answers -->
               <div :class="{invalid: $v.secretQuestionInputs.$each[index].password.$error}">
                 <label
                   :for="secretQuestionInput.id + 'password'"
