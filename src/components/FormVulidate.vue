@@ -308,8 +308,7 @@ export default {
   },
   validations: {
     firstName: {
-      // has to have same name as the property you are binding to with v-model to automatially synchronize and know when value changes
-      required, // not empty
+      required,
       minLength: minLength(2),
       alpha
     },

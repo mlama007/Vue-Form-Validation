@@ -6,8 +6,26 @@
       </div>
       <div v-else>
         <h1>Create Account</h1>
-        <h2>Vee Validate</h2>
+        <h2>VeeValidate</h2>
         <form @submit.prevent="onSubmit" autocomplete="on">
+          <!-- <div v-if="this.errors.items.length > 0" class="errors">
+            <h3>Errors</h3>
+            <p><strong><em> errors.all() </em></strong></p>
+            <ul>
+              <li v-for="(error, index) in errors.all()" :key="index">{{ error }}</li>
+            </ul>
+            <br />
+            <p><strong><em> errors.collect() & error in group </em></strong></p>
+            <section>
+              <div v-for="(group, index) in errors.collect()" :key="index">
+                <h4><strong>{{index}}</strong></h4>
+                <ul>
+                  <li v-for="(error, index2) in group" :key="index2">{{ error }}</li>
+                </ul>
+              </div>
+            </section>
+          </div>-->
+
           <!-- First Name -->
           <div class="input" :class="{invalid: errors.first('firstName')}">
             <label for="firstName2">
@@ -39,25 +57,7 @@
               v-model="lastName"
               required
             />
-            <span v-if="errors.has('lastName')" aria-live="assertive">
-              <h2>errors.collect</h2>
-              <ul>
-                <li v-for="(error, index) in errors.collect('lastName')" :key="index">{{ error }}</li>
-              </ul>
-              <h2>errors.all()</h2>
-              <ul>
-                <li v-for="(error, index) in errors.all()" :key="index">{{ error }}</li>
-              </ul>
-              <h2>errors.collect() & error in group</h2>
-              <ul>
-                <li v-for="(group, index) in errors.collect()" :key="index">
-                  {{index}}
-                  <ul>
-                    <li v-for="(error, index2) in group" :key="index2">{{ error }}</li>
-                  </ul>
-                </li>
-              </ul>
-            </span>
+            <p v-if="errors.first('lastName')" aria-live="assertive">{{errors.first('lastName')}}</p>
           </div>
 
           <!-- Phone Number -->
@@ -181,22 +181,22 @@
                   required
                 />
               </div>
-              <br/>
+              <br />
               <!-- Answers -->
               <!-- <div :class="{invalid: $v.secretQuestionInputs.$each[index].password.$error}"> -->
               <div>
-                  <label :for="secretQuestionInput.id + 'password'">
-                    Secret Question #{{ index+1 }}'s Answer
-                    <span aria-hidden="true" class="required">*</span>
-                  </label>
-                  <input
-                    type="password"
-                    :name="secretQuestionInput.id + 'password'"
-                    :id="secretQuestionInput.id + 'password'"
-                    v-model="secretQuestionInput.password"
-                    required
-                  />
-                </div>
+                <label :for="secretQuestionInput.id + 'password'">
+                  Secret Question #{{ index+1 }}'s Answer
+                  <span aria-hidden="true" class="required">*</span>
+                </label>
+                <input
+                  type="password"
+                  :name="secretQuestionInput.id + 'password'"
+                  :id="secretQuestionInput.id + 'password'"
+                  v-model="secretQuestionInput.password"
+                  required
+                />
+              </div>
             </div>
             <p
               aria-live="assertive"
@@ -259,7 +259,7 @@
 
           <!-- Submit -->
           <div class="submit">
-            <button type="submit" :disabled="errors.has('firstName')">Submit</button>
+            <button type="submit" :disabled="!isFormDirty">Submit</button>
           </div>
         </form>
       </div>
@@ -284,6 +284,11 @@ export default {
       initials: "",
       submitted: false
     };
+  },
+  computed: {
+    isFormDirty() {
+      return Object.keys(this.fields).some(key => this.fields[key].dirty);
+    }
   },
   methods: {
     onAddSecretQuestion() {
