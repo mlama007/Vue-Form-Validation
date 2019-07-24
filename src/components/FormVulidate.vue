@@ -62,14 +62,14 @@
           <!-- Email -->
           <div class="input" :class="{invalid: $v.email.$error}">
             <label for="email">Email <span aria-hidden=true class="required">*</span></label>
-            <input type="email" id="email" @blur="$v.email.$touch()" v-model="email" required/>
+            <input type="email" id="email" @blur="$v.email.$touch()" v-model="email" autocomplete="username email" required/>
             <p v-if="!$v.email.email" aria-live="assertive">Must provide valid email</p>
           </div>
 
           <!-- Age -->
           <div class="input" :class="{invalid: $v.age.$error}">
             <label for="age">Your Age <span aria-hidden=true class="required">*</span></label>
-            <input type="number" id="age" @blur="$v.age.$touch()" v-model.number="age" required/>
+            <input type="number" name="age" id="age" @blur="$v.age.$touch()" v-model.number="age" required/>
 
             <!-- Params will hold the params for the validator -->
             <p
@@ -84,7 +84,7 @@
           <!-- Password -->
           <div class="input" :class="{invalid: $v.password.$error}">
             <label for="password">Password <span aria-hidden=true class="required">*</span></label>
-            <input type="password" id="password" @blur="$v.password.$touch()" v-model="password" required/>
+            <input type="password" id="password" @blur="$v.password.$touch()" v-model="password" autocomplete="new-password" required/>
             <p
               v-if="!$v.password.minLength && $v.password.$error" aria-live="assertive"
             >Password must be at least {{$v.password.$params.minLength.min}} characters long</p>
@@ -99,6 +99,7 @@
               @blur="$v.confirmPassword.$touch()"
               v-model="confirmPassword"
               required
+              autocomplete="new-password"
             />
             <p v-if="!$v.confirmPassword.sameAs && $v.confirmPassword.$error" aria-live="assertive">Passwords must match</p>
           </div>
@@ -137,7 +138,7 @@
               <div :class="{invalid: $v.secretQuestionInputs.$each[index].password.$error}">
                 <label
                   :for="secretQuestionInput.id + 'password'"
-                >Secret Question #{{ index+1 }}'s Password <span aria-hidden=true class="required">*</span></label>
+                >Secret Question #{{ index+1 }}'s Answer <span aria-hidden=true class="required">*</span></label>
                 <input
                   :class="{invalid: $v.secretQuestionInputs.$each[index].$error}"
                   type="password"

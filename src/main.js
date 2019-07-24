@@ -13,6 +13,7 @@ Vue.use(VeeValidate);
 
 new Vue({
   router,
+  scss,
   render: h => h(App),
 }).$mount('#app')
 

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <div v-grid="'1fr 1fr'" class="validationForms">
       <FormVulidate/>
       <FormVeeValidate/>
