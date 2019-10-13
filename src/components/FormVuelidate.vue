@@ -1,5 +1,5 @@
 <template>
-  <div class="form">
+  <section class="form">
     <div class="form-content">
       <div v-if="submitted">
         <h2 aria-live="polite">Your Form has been submitted!</h2>
@@ -8,6 +8,7 @@
         <h1>Create Account</h1>
         <h2>Vuelidate</h2>
         <form @submit.prevent="onSubmit" autocomplete="on">
+
           <!-- First Name -->
           <div class="input" :class="{invalid: $v.firstName.$error}">
             <label for="firstName">
@@ -116,7 +117,7 @@
               v-if="!$v.age.maxValue && $v.age.$error"
               aria-live="assertive"
             >Cannot have age over {{$v.age.$params.maxValue.max}}</p>
-            <p v-if="!$v.age.minValue && $v.age.$error">Must be over {{$v.age.$params.minValue.min}}</p>
+            <p v-if="!$v.age.minValue && $v.age.$error" aria-live="assertive">Must be over {{$v.age.$params.minValue.min}}</p>
             <p
               v-if="!$v.age.between && $v.age.$error"
               aria-live="assertive"
@@ -272,7 +273,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -340,20 +341,6 @@ export default {
       required,
       sameAs: sameAs("password") //match this to your data property name
     },
-    terms: {
-      required,
-      checked(val) {
-        return this.accountType === "personal" ? true : val;
-      }
-    },
-    initials: {
-      required: requiredUnless(vm => {
-        return vm.accountType === "personal";
-      })
-    },
-    accountType: {
-      required
-    },
     // Validating Arrays
     secretQuestionInputs: {
       minLength: minLength(2),
@@ -368,6 +355,20 @@ export default {
           minLength: minLength(6)
         }
       }
+    },
+    accountType: {
+      required
+    },
+    terms: {
+      required,
+      checked(val) {
+        return this.accountType === "personal" ? true : val;
+      }
+    },
+    initials: {
+      required: requiredUnless(vm => {
+        return vm.accountType === "personal";
+      })
     }
   },
   methods: {

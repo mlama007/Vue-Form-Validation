@@ -1,22 +1,21 @@
 <template>
-  <div class="home">
+  <main class="home">
     <div v-grid="'1fr 1fr'" class="validationForms">
-      <FormVulidate/>
+      <FormVuelidate/>
       <FormVeeValidate/>
     </div>
-    
-  </div>
+  </main>
 </template>
 
 <script>
 // @ is an alias to /src
-import FormVulidate from './../components/FormVulidate'
+import FormVuelidate from './../components/FormVuelidate'
 import FormVeeValidate from './../components/FormVeeValidate'
 
 export default {
   name: 'Forms',
   components: {
-    FormVulidate,
+    FormVuelidate,
     FormVeeValidate
   }
 }

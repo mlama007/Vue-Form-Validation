@@ -1,5 +1,5 @@
 <template>
-  <div class="form">
+  <section class="form">
     <div class="form-content">
       <div v-if="submitted">
         <h2 aria-live="polite">Your Form has been submitted!</h2>
@@ -24,7 +24,7 @@
                 </ul>
               </div>
             </section>
-          </div>-->
+          </div> -->
 
           <!-- First Name -->
           <div class="input" :class="{invalid: errors.first('firstName')}">
@@ -159,6 +159,7 @@
               v-for="(secretQuestionInput, index) in secretQuestionInputs"
               :key="secretQuestionInput.id"
             >
+            <p v-if="errors.first('secretQuestionInputs')" aria-live="assertive">{{errors.first('secretQuestionInputs')}}</p>
               <button
                 class="delete"
                 @click="onDeleteSecretQuestion(secretQuestionInput.id)"
@@ -264,7 +265,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
