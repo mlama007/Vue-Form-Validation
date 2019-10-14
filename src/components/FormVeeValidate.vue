@@ -154,7 +154,6 @@
           <div class="secretQuestions">
             <button @click="onAddSecretQuestion" type="button">Add Secret Question</button>
             <div
-              v-validate="'required|min:2'"
               class="input question"
               v-for="(secretQuestionInput, index) in secretQuestionInputs"
               :key="secretQuestionInput.id"
@@ -207,7 +206,16 @@
                 >{{ errors.first('password' + secretQuestionInput.id) }}</p>
               </div>
             </div>
+            <p
+              aria-live="assertive"
+              :class="{ invalid: secretQuestionInputs.length && secretQuestionInputs.length != 2 }"
+              v-if="secretQuestionInputs.length && secretQuestionInputs.length != 2"
+            >You need at least 2 Secret Questions</p>
           </div>
+          <p
+            aria-live="assertive"
+            v-if="!secretQuestionInputs.length"
+          >You need at least 2 Secret Questions</p>
 
           <!-- Account Type -->
           <div class="input accountType">
