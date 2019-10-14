@@ -159,7 +159,6 @@
               v-for="(secretQuestionInput, index) in secretQuestionInputs"
               :key="secretQuestionInput.id"
             >
-            <p v-if="errors.first('secretQuestionInputs')" aria-live="assertive">{{errors.first('secretQuestionInputs')}}</p>
               <button
                 class="delete"
                 @click="onDeleteSecretQuestion(secretQuestionInput.id)"
@@ -175,12 +174,16 @@
                 </label>
                 <input
                   type="text"
-                  :name="secretQuestionInput.id"
+                  :name="'secretQuestionInput' + secretQuestionInput.id"
                   :id="secretQuestionInput.id"
                   v-validate="'required|min:2'"
                   v-model="secretQuestionInput.value"
                   required
                 />
+                <p
+                  aria-live="assertive"
+                  v-if="errors.first('secretQuestionInput' + secretQuestionInput.id)"
+                >{{ errors.first('secretQuestionInput' + secretQuestionInput.id) }}</p>
               </div>
               <br />
               <!-- Answers -->
@@ -192,17 +195,18 @@
                 </label>
                 <input
                   type="password"
-                  :name="secretQuestionInput.id + 'password'"
-                  :id="secretQuestionInput.id + 'password'"
+                  :name="'password' + secretQuestionInput.id"
+                  :id="'password' + secretQuestionInput.id"
+                  v-validate="'required|min:6'"
                   v-model="secretQuestionInput.password"
                   required
                 />
+                <p
+                  aria-live="assertive"
+                  v-if="errors.first('password' + secretQuestionInput.id)"
+                >{{ errors.first('password' + secretQuestionInput.id) }}</p>
               </div>
             </div>
-            <p
-              aria-live="assertive"
-              v-if="errors.first('confirmPassword')"
-            >{{ errors.first('confirmPassword') }}</p>
           </div>
 
           <!-- Account Type -->
