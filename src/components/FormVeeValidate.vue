@@ -8,6 +8,23 @@
         <h1>Create Account</h1>
         <h2>VeeValidate</h2>
         <form @submit.prevent="onSubmit" autocomplete="on">
+          <!-- <div v-if="this.errors.items.length > 0" class="errors">
+            <h3>Errors</h3>
+            <p><strong><em> errors.all() </em></strong></p>
+            <ul>
+              <li v-for="(error, index) in errors.all()" :key="index">{{ error }}</li>
+            </ul>
+            <br />
+            <p><strong><em> errors.collect() & error in group </em></strong></p>
+            <section>
+              <div v-for="(group, index) in errors.collect()" :key="index">
+                <h4><strong>{{index}}</strong></h4>
+                <ul>
+                  <li v-for="(error, index2) in group" :key="index2">{{ error }}</li>
+                </ul>
+              </div>
+            </section>
+          </div> -->
           <!-- First Name -->
           <div class="input" :class="{invalid: errors.first('firstName')}">
             <label for="firstName2">
@@ -22,6 +39,7 @@
               v-model="firstName"
               required
             />
+            <p v-if="errors.has('firstName')" aria-live="assertive">{{ errors.first('firstName') }}</p>
           </div>
           <!-- Last Name -->
           <div class="input" :class="{invalid: errors.first('lastName')}">
@@ -37,6 +55,7 @@
               v-model="lastName"
               required
             />
+            <p v-if="errors.first('lastName')" aria-live="assertive">{{errors.first('lastName')}}</p>
           </div>
           <!-- Phone Number -->
           <div class="input" :class="{invalid: errors.first('phoneNumber')}">
@@ -53,6 +72,10 @@
               v-validate="'required|min:14'"
               required
             />
+            <p
+              v-if="errors.first('phoneNumber')"
+              aria-live="assertive"
+            >{{errors.first('phoneNumber')}}</p>
           </div>
           <!-- Email -->
           <div class="input" :class="{invalid: errors.first('email')}">
@@ -66,6 +89,7 @@
               autocomplete="username email"
               required
             />
+            <p v-if="errors.first('email')" aria-live="assertive">{{ errors.first('email') }}</p>
           </div>
           <!-- Age -->
           <div class="input" :class="{invalid: errors.first('age')}">
@@ -81,6 +105,7 @@
               v-model.number="age"
               required
             />
+            <p v-if="errors.first('age')" aria-live="assertive">{{ errors.first('age') }}</p>
           </div>
           <!-- Password -->
           <div class="input" :class="{invalid: errors.first('password')}">
@@ -96,6 +121,7 @@
               v-model="password"
               autocomplete="new-password"
             />
+            <p aria-live="assertive" v-if="errors.first('password')">{{ errors.first('password') }}</p>
           </div>
           <!-- Password Confirmation -->
           <div class="input" :class="{invalid: errors.first('confirmPassword')}">
@@ -111,6 +137,10 @@
               v-model="confirmPassword"
               autocomplete="new-password"
             />
+            <p
+              aria-live="assertive"
+              v-if="errors.first('confirmPassword')"
+            >{{ errors.first('confirmPassword') }}</p>
           </div>
           <!-- Secret Questions -->
           <div class="secretQuestions">
@@ -140,6 +170,10 @@
                   v-model="secretQuestionInput.value"
                   required
                 />
+                <p
+                  aria-live="assertive"
+                  v-if="errors.first('secretQuestionInput' + secretQuestionInput.id)"
+                >{{ errors.first('secretQuestionInput' + secretQuestionInput.id) }}</p>
               </div>
               <br />
               <!-- Answers -->
@@ -156,9 +190,22 @@
                   v-model="secretQuestionInput.password"
                   required
                 />
+                <p
+                  aria-live="assertive"
+                  v-if="errors.first('password' + secretQuestionInput.id)"
+                >{{ errors.first('password' + secretQuestionInput.id) }}</p>
               </div>
             </div>
+            <p
+              aria-live="assertive"
+              :class="{ invalid: secretQuestionInputs.length && secretQuestionInputs.length != 2 }"
+              v-if="secretQuestionInputs.length && secretQuestionInputs.length != 2"
+            >You need at least 2 Secret Questions</p>
           </div>
+          <p
+            aria-live="assertive"
+            v-if="!secretQuestionInputs.length"
+          >You need at least 2 Secret Questions</p>
           <!-- Account Type -->
           <div class="input accountType">
             <label for="accountType2">
@@ -189,6 +236,7 @@
                 >*</span>
               </label>
             </div>
+            <p aria-live="assertive" v-if="errors.first('terms')">{{ errors.first('terms') }}</p>
             <!-- Initials -->
             <div class="input" :class="{invalid: errors.has('initials')}">
               <label for="initials2">
@@ -202,6 +250,10 @@
                 v-validate.immediate="'required_if:accountType,business'"
                 v-model="initials"
               />
+              <p
+                aria-live="assertive"
+                v-if="errors.first('initials')"
+              >{{ errors.first('initials') }}</p>
             </div>
           </div>
           <!-- Submit -->
