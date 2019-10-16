@@ -1,6 +1,6 @@
 <template>
   <main class="home">
-    <div v-grid="'1fr 1fr'" class="validationForms">
+    <div class="validationForms">
       <FormVuelidate/>
       <FormVeeValidate/>
     </div>
@@ -24,6 +24,8 @@ export default {
 <style>
 .validationForms{
   max-width: 850px;
-  margin: auto
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 </style>

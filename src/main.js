@@ -3,7 +3,6 @@ import App from './App.vue'
 import Vuelidate from 'vuelidate'
 import VeeValidate from 'vee-validate'
 import VueMask from 'v-mask'
-import router from './router'
 import scss from './scss/main.scss'
 
 Vue.config.productionTip = false
@@ -12,15 +11,14 @@ Vue.use(VueMask);
 Vue.use(VeeValidate);
 
 new Vue({
-  router,
   scss,
   render: h => h(App),
 }).$mount('#app')
 
-Vue.directive('grid', {
-  bind: function (el, binding) {
-    let columns = binding.value
-    el.style.display = 'grid'
-    el.style.gridTemplateColumns = columns
-  }
-})
+// Vue.directive('grid', {
+//   bind: function (el, binding) {
+//     let columns = binding.value
+//     el.style.display = 'grid'
+//     el.style.gridTemplateColumns = columns
+//   }
+// })
