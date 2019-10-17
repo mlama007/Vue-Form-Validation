@@ -258,7 +258,7 @@
           </div>
           <!-- Submit -->
           <div class="submit">
-            <button type="submit" v-on:click="validate()">Submit</button>
+            <button type="submit" :disabled="this.errors.items.length > 0" v-on:click="validate()">Submit</button>
           </div>
         </form>
       </div>
@@ -280,7 +280,7 @@ export default {
       secretQuestionInputs: [],
       terms: false,
       initials: "",
-      submitted: false
+      submitted: false,
     };
   },
   methods: {
