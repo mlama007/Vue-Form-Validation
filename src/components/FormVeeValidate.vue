@@ -2,7 +2,7 @@
   <section class="form">
     <div class="form-content">
       <div v-if="submitted">
-        <h2 aria-live="polite">Your Form has been submitted!</h2>
+        <h2 aria-live="polite" v-focus tabindex="-1">Your Form has been submitted!</h2>
       </div>
       <div v-else>
         <h1>Create Account</h1>

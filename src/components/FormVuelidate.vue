@@ -294,13 +294,6 @@ export default {
       submitted: false
     };
   },
-  directives: {
-    focus: {
-      inserted: function(el) {
-        el.focus();
-      }
-    }
-  },
   validations: {
     firstName: {
       required,
