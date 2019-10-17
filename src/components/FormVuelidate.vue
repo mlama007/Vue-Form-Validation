@@ -330,6 +330,7 @@ export default {
     },
     // Validating Arrays
     secretQuestionInputs: {
+      required,
       minLength: minLength(2),
       // $each is a placeholder for all dynamic elements we can add to the array
       $each: {

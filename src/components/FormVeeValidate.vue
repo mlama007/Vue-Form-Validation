@@ -258,7 +258,7 @@
           </div>
           <!-- Submit -->
           <div class="submit">
-            <button type="submit" :disabled="!isFormDirty">Submit</button>
+            <button type="submit" v-on:click="validate()">Submit</button>
           </div>
         </form>
       </div>
@@ -283,12 +283,10 @@ export default {
       submitted: false
     };
   },
-  computed: {
-    isFormDirty() {
-      return Object.keys(this.fields).some(key => this.fields[key].dirty);
-    }
-  },
   methods: {
+    validate(){
+      this.$validator.validate()
+    },
     onAddSecretQuestion() {
       const newSecretQuestion = {
         id: Math.random() * Math.random() * 1000,
