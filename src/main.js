@@ -14,11 +14,3 @@ new Vue({
   scss,
   render: h => h(App),
 }).$mount('#app')
-
-// Vue.directive('grid', {
-//   bind: function (el, binding) {
-//     let columns = binding.value
-//     el.style.display = 'grid'
-//     el.style.gridTemplateColumns = columns
-//   }
-// })
