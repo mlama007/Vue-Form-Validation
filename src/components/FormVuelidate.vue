@@ -21,19 +21,17 @@
               v-model="firstName"
               required
             />
-            <p
-              v-if="!$v.firstName.required && $v.firstName.$error"
-              aria-live="assertive"
-            >First name must be filled out</p>
-            <p
-              v-if="!$v.firstName.minLength && $v.firstName.$error"
-              aria-live="assertive"
-            >First name must have at least {{$v.firstName.$params.minLength.min}} characters</p>
-            <p
-              v-if="!$v.firstName.alpha && $v.firstName.$error"
-              aria-live="assertive"
-            >First name must only contain alphabetic characters</p>
+            <div aria-live="assertive" v-if="$v.firstName.$error">
+              <p v-if="!$v.firstName.required && $v.firstName.$error">First name must be filled out</p>
+              <p
+                v-if="!$v.firstName.minLength && $v.firstName.$error"
+              >First name must have at least {{$v.firstName.$params.minLength.min}} characters</p>
+              <p
+                v-if="!$v.firstName.alpha && $v.firstName.$error"
+              >First name must only contain alphabetic characters</p>
+            </div>
           </div>
+
           <!-- Last Name -->
           <div class="input" :class="{invalid: $v.lastName.$error}">
             <label for="lastName">
@@ -47,18 +45,16 @@
               v-model="lastName"
               required
             />
-            <p
-              v-if="!$v.lastName.required && $v.lastName.$error"
-              aria-live="assertive"
-            >Last name must be filled out</p>
-            <p
-              v-if="!$v.lastName.minLength && $v.lastName.$error"
-              aria-live="assertive"
-            >Last name must have at least {{$v.lastName.$params.minLength.min}} characters</p>
-            <p
-              v-if="!$v.lastName.alpha && $v.lastName.$error"
-              aria-live="assertive"
-            >Last name must only contain alphabetic characters</p>
+
+            <div aria-live="assertive" v-if="$v.lastName.$error">
+              <p v-if="!$v.lastName.required && $v.lastName.$error">Last name must be filled out</p>
+              <p
+                v-if="!$v.lastName.minLength && $v.lastName.$error"
+              >Last name must have at least {{$v.lastName.$params.minLength.min}} characters</p>
+              <p
+                v-if="!$v.lastName.alpha && $v.lastName.$error"
+              >Last name must only contain alphabetic characters</p>
+            </div>
           </div>
           <!-- Phone Number -->
           <div class="input" :class="{invalid: $v.phoneNumber.$error}">
@@ -107,15 +103,17 @@
               required
             />
             <!-- Params will hold the params for the validator -->
-            <p
-              v-if="!$v.age.maxValue && $v.age.$error"
-              aria-live="assertive"
-            >Cannot have age over {{$v.age.$params.maxValue.max}}</p>
-            <p v-if="!$v.age.minValue && $v.age.$error" aria-live="assertive">Must be over {{$v.age.$params.minValue.min}}</p>
-            <p
-              v-if="!$v.age.between && $v.age.$error"
-              aria-live="assertive"
-            >Age has to be between {{$v.age.$params.between.min}} and {{$v.age.$params.between.max}}</p>
+            <div aria-live="assertive" v-if="$v.age.$error">
+              <p
+                v-if="!$v.age.maxValue && $v.age.$error"
+              >Cannot have age over {{$v.age.$params.maxValue.max}}</p>
+              <p
+                v-if="!$v.age.minValue && $v.age.$error"
+              >Must be over {{$v.age.$params.minValue.min}}</p>
+              <p
+                v-if="!$v.age.between && $v.age.$error"
+              >Age has to be between {{$v.age.$params.between.min}} and {{$v.age.$params.between.max}}</p>
+            </div>
           </div>
           <!-- Password -->
           <div class="input" :class="{invalid: $v.password.$error}">
@@ -237,7 +235,11 @@
               <input type="checkbox" id="terms" @change="$v.terms.$touch()" v-model="terms" />
               <label for="terms">
                 Accept Terms of Use
-                <span v-if="$v.terms.$invalid" class="required" aria-label="required">*</span>
+                <span
+                  v-if="$v.terms.$invalid"
+                  class="required"
+                  aria-label="required"
+                >*</span>
               </label>
             </div>
             <!-- Initials -->
@@ -294,8 +296,8 @@ export default {
   },
   directives: {
     focus: {
-      inserted: function(el){
-        el.focus()
+      inserted: function(el) {
+        el.focus();
       }
     }
   },
